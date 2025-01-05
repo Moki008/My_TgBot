@@ -8,10 +8,14 @@ token = dotenv_values(".env")["MY_BOT_TOKEN"]
 bot = Bot(token=token)
 dp = Dispatcher()
 
+all_id = []
 @dp.message(Command("start"))
 async def start(message):
     name = message.from_user.first_name
-    await message.answer(f"Привет, {name} ")
+    my_id = message.from_user.id
+    if my_id not in all_id:
+        all_id.append(my_id)
+    await message.answer(f"Привет, {name}, наш бот обслуживает уже {len(all_id)} пользователя ")
 
 @dp.message(Command("myinfo"))
 async def get_my_info(message):
