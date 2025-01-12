@@ -1,10 +1,14 @@
 import asyncio
-from handlers.Moki_TgBot_handlers import router
-from handlers.Moki_TgBot_config import bot, dp
+from Moki_config import bot, dp
+from Moki_handlers.start import start_router
+from Moki_handlers.my_info import my_info_router
+from Moki_handlers.random import random_router
 
 
 async def main():
-    dp.include_router(router)
+    dp.include_router(start_router)
+    dp.include_router(my_info_router)
+    dp.include_router(random_router)
     await dp.start_polling(bot)
 
 
