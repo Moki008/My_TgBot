@@ -43,7 +43,7 @@ class Database:
         with sqlite3.connect(self.path) as conn:
             conn.execute(
                 """
-            INSERT INTO review(name, price, about, category, portion)
+            INSERT INTO dishes(name, price, about, category, portion)
             VALUES (?, ?, ?, ?, ?)
             """,
                 (data['name'], data['price'], data['about'], data['category'], data['portion'] )
