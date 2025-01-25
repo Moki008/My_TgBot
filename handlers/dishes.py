@@ -5,6 +5,9 @@ from aiogram.fsm.state import State, StatesGroup
 from config import database
 
 dish_router = Router()
+dish_router.message.filter(
+    F.from_user.id == 7309817854
+)
 
 
 class Dish(StatesGroup):

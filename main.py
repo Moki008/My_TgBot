@@ -7,7 +7,7 @@ from handlers.start import start_router
 from handlers.my_info import my_info_router
 from handlers.random import random_router
 from handlers.review_dialog import dialog_router
-from handlers.add_dish import dish_router
+from handlers.dishes import dish_router
 
 
 async def start_up(bot: Bot):
