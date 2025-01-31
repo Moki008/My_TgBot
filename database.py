@@ -29,6 +29,7 @@ class Database:
             """)
 
 
+
     def save_review(self, data):
         with sqlite3.connect(self.path) as conn:
             conn.execute(

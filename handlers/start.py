@@ -7,6 +7,7 @@ start_router = Router()
 async def start(message: types.Message):
     name = message.from_user.first_name
 
+
     kb = types.InlineKeyboardMarkup(
         inline_keyboard=[
             [

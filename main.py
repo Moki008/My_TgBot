@@ -8,6 +8,7 @@ from handlers.my_info import my_info_router
 from handlers.random import random_router
 from handlers.review_dialog import dialog_router
 from handlers.dishes import dish_router
+from handlers.group_management import group_router
 
 
 async def start_up(bot: Bot):
@@ -21,7 +22,7 @@ async def main():
     dp.include_router(random_router)
     dp.include_router(dialog_router)
     dp.include_router(dish_router)
-
+    dp.include_router(group_router)
 
     dp.startup.register(start_up)
     await dp.start_polling(bot)

@@ -8,3 +8,4 @@ bot = Bot(token=token)
 dp = Dispatcher()
 database = Database("db.sqlite3")
 databade_dish = DatabaseDish("db.sqlite3_dish")
+
