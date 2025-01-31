@@ -1,7 +1,9 @@
 from aiogram import Router, types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
+from aiogram_widgets.pagination import TextPaginator
 from aiogram.fsm.state import State, StatesGroup
+
 from config import database
 
 dish_router = Router()
@@ -14,6 +16,7 @@ class Dish(StatesGroup):
     name = State()
     price = State()
     about = State()
+    photo = State()
     category = State()
     portion = State()
 
@@ -44,6 +47,14 @@ async def add_dish(message: types.Message, state: FSMContext):
 async def add_dish(message: types.Message, state: FSMContext):
     about = message.text
     await state.update_data(about=about)
+    await message.answer("Пожалуйста отправьте фото вашего блюда: ")
+    await state.set_state(Dish.photo)
+
+@dish_router.message(Dish.photo, F.photo)
+async def add_dish(message: types.Message, state: FSMContext):
+    photo = message.photo
+    mid_image = photo[-2]
+    await state.update_data(photo=mid_image.file_id)
     await message.answer("Выберите,категорию блюда: ")
     await state.set_state(Dish.category)
 
@@ -65,3 +76,20 @@ async def add_dish(message: types.Message, state: FSMContext):
     print(data)
     database.save_dishes(data)
     await state.clear()
+
+@dish_router.message(Command("getdish"))
+async def get_dish(message: types.Message):
+    await message.answer("Наше меню блюд")
+    dish_list = database.get_dishes()
+
+    text_dishes = [
+        f"Название: {dish.get('name', 'Без названия')}\nЦена: {dish.get('price')} сом\nО блюде: {dish.get('about')}\nКатегория: {dish.get('category')}\nПорция: {dish.get('portion')}" for dish in dish_list
+    ]
+
+    paginator = TextPaginator(data=text_dishes, router=dish_router, per_page=1)
+    current_text_chunk, reply_markup = paginator.current_message_data
+
+    await message.answer(
+        text=current_text_chunk,
+        reply_markup=reply_markup
+    )
