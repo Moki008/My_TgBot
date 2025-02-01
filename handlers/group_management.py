@@ -8,6 +8,10 @@ words = ("гнида", "дурак", "ишак")
 @group_router.message(F.text)
 async def echo_handler(message: types.Message):
     for word in words:
-        if word.lower() in message.text:
+        if word.lower() in message.text.lower():
             await message.answer("Такое слово нельзя использовать")
+            author_id = message.from_user.id
+            await message.chat.ban(author_id)
             await message.delete()
+            break
+
